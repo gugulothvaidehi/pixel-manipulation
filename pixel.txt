@@ -1,0 +1,21 @@
+def encrypt_image(image_path, key, output_path):
+    # Open the image
+    img = Image.open(image_path)
+    # Convert the image to a numpy array
+    img_array = np.array(img)
+    
+    # Generate a pseudo-random sequence using the key
+    np.random.seed(key)
+    random_sequence = np.random.randint(0, 256, img_array.shape, dtype=np.uint8)
+    
+    # Encrypt the image by XORing with the random sequence
+    encrypted_array = np.bitwise_xor(img_array, random_sequence)
+    
+    # Convert the encrypted array back to an image
+    encrypted_img = Image.fromarray(encrypted_array)
+    
+    # Save the encrypted image
+    encrypted_img.save(output_path)
+
+# Example usage
+encrypt_image('input_image.png', key=12345, output_path='encrypted_image.png')
